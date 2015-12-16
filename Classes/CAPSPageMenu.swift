@@ -80,6 +80,7 @@ public enum CAPSPageMenuOption {
     case ScrollAnimationDurationOnMenuItemTap(Int)
     case CenterMenuItems(Bool)
     case HideTopMenuBar(Bool)
+    case ScrollMenuVerticalOffset(CGFloat)
 }
 
 public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate {
@@ -99,7 +100,8 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
     var totalMenuItemWidthIfDifferentWidths : CGFloat = 0.0
     public var scrollAnimationDurationOnMenuItemTap : Int = 500 // Millisecons
     var startingMenuMargin : CGFloat = 0.0
-    
+    var scrollMenuVerticalOffset : CGFloat = 0.0
+
     var selectionIndicatorView : UIView = UIView()
     
     var currentPageIndex : Int = 0
@@ -215,6 +217,8 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
                     centerMenuItems = value
                 case let .HideTopMenuBar(value):
                     hideTopMenuBar = value
+                case let .ScrollMenuVerticalOffset(value):
+                  scrollMenuVerticalOffset = value
                 }
             }
             
@@ -277,6 +281,8 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
         
         self.view.addConstraints(menuScrollView_constraint_H)
         self.view.addConstraints(menuScrollView_constraint_V)
+
+        menuScrollView.transform = CGAffineTransformMakeTranslation(0, scrollMenuVerticalOffset)
         
         // Add hairline to menu scroll view
         if addBottomMenuHairline {
